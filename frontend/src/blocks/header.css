@@ -1,0 +1,63 @@
+.header {
+  background: linear-gradient(to right, #000, #292827);
+  padding: 20px 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__logo {
+  max-width: 500px;
+  max-height: 300px;
+}
+
+.header__subtitle {
+  font-size: 1.2rem;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  color: #574270;
+  font-family: "Montserrat";
+  font-weight: light;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.header__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-family: "Montserrat";
+  font-size: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header__user {
+  color: #a7b1c9;
+  text-decoration: none;
+}
+
+.header__primary-button {
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  color: #a7b1c9;
+}
+
+.header__primary-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.header__secondary-button {
+  text-decoration: none;
+  color: #a7b1c9;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.header__secondary-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}

@@ -1,0 +1,29 @@
+.input__container {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.custom__input {
+  max-width: none;
+  min-height: 5vh;
+  padding-right: 0px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  padding-left: 15%;
+}
+
+.custom__input:focus {
+  outline: none;
+  border-color: #6a5acd;
+  box-shadow: 0 0 8px rgba(106, 90, 205, 0.5);
+}
+
+.custom__input-search {
+  min-width: 25vw;
+  min-height: 5vh;
+  padding: 0%, 0%, 0%, 0%;
+  padding-left: 1%;
+}

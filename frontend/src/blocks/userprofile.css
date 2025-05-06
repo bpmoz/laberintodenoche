@@ -1,0 +1,412 @@
+/* UserProfile.css */
+.user {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  background: linear-gradient(to right, #000, #292827);
+}
+
+/* Profile Section */
+.user__profile {
+  width: 100%;
+}
+
+/* Header Section */
+.user__profile-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user__profile-avatar-container {
+  flex-shrink: 0;
+}
+
+.user__profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f0f0f0;
+}
+
+.user__profile-info {
+  flex-grow: 1;
+}
+
+.user__profile-username {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  color: #574270;
+}
+
+.user__profile-email {
+  font-size: 1rem;
+  color: #a7b1c9;
+  margin-bottom: 0.5rem;
+}
+
+.user__profile-joined-date {
+  font-size: 0.9rem;
+  color: #a7b1c9;
+  margin-bottom: 1rem;
+}
+
+.user__profile-bio {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: #a7b1c9;
+}
+
+.user__profile-edit-button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.user__profile-edit-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Tabs Section */
+.user__profile-tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user__profile-tab-button {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.user__profile-tab-button:hover {
+  color: #333;
+}
+
+.user__profile-tab-button--active {
+  color: #333;
+  font-weight: bold;
+}
+
+.user__profile-tab-button--active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #4a90e2;
+}
+
+/* Content Section */
+.user__profile-content {
+  width: 100%;
+}
+
+.user__profile-section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #a7b1c9;
+}
+
+.user__profile-empty-message {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Episodes Section */
+.user__profile-episodes {
+  width: 100%;
+}
+
+/* Episodes List */
+.user__profile-episodes-list,
+.user__profile-books-list,
+.user__profile-comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user__profile-episode-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user__profile-episode-image {
+  flex-shrink: 0;
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.user__profile-episode-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.user__profile-episode-play {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 6px;
+}
+
+.user__profile-episode-image:hover .user__profile-episode-play {
+  opacity: 1;
+}
+
+.user__profile-play-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.user__profile-episode-info {
+  flex-grow: 1;
+}
+
+.user__profile-episode-title {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  color: #574270;
+}
+
+.user__profile-episode-podcast {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.user__profile-episode-duration {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.user__profile-episode-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.user__profile-remove-button {
+  background-color: transparent;
+  color: #ff5252;
+  border: 1px solid #ff5252;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  height: fit-content;
+  transition: all 0.2s;
+}
+
+.user__profile-remove-button:hover {
+  background-color: #ff5252;
+  color: white;
+}
+
+/* Books Section */
+.user__profile-books {
+  width: 100%;
+}
+
+.user__profile-book-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user__profile-book-image {
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.user__profile-book-image img {
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.user__profile-book-info {
+  flex-grow: 1;
+}
+
+.user__profile-book-title {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  color: #574270;
+}
+
+.user__profile-book-author {
+  font-size: 0.9rem;
+  color: #a7b1c9;
+  margin-bottom: 0.8rem;
+}
+
+.user__profile-book-episode {
+  font-size: 0.9rem;
+  color: #a7b1c9;
+  margin-bottom: 0.5rem;
+}
+
+.user__profile-book-episode span {
+  color: #4a90e2;
+}
+
+.user__profile-book-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Comments Section */
+.user__profile-comments {
+  width: 100%;
+}
+
+.user__profile-comment-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user__profile-comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+}
+
+.user__profile-comment-episode {
+  font-size: 1rem;
+  margin: 0;
+  color: #a7b1c9;
+  font-weight: normal;
+}
+
+.user__profile-comment-episode span {
+  color: #4a90e2;
+}
+
+.user__profile-comment-date {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0;
+}
+
+.user__profile-comment-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.user__profile-comment-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.user__profile-edit-comment-button {
+  background-color: transparent;
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.user__profile-edit-comment-button:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.user__profile-delete-comment-button {
+  background-color: transparent;
+  color: #ff5252;
+  border: 1px solid #ff5252;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.user__profile-delete-comment-button:hover {
+  background-color: #ff5252;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user__profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .user__profile-episode-item,
+  .user__profile-book-item {
+    flex-direction: column;
+  }
+
+  .user__profile-episode-image,
+  .user__profile-book-image {
+    margin: 0 auto;
+  }
+
+  .user__profile-remove-button {
+    align-self: flex-end;
+  }
+
+  .user__profile-comment-header {
+    flex-direction: column;
+  }
+
+  .user__profile-tabs {
+    overflow-x: auto;
+  }
+
+  .user__profile-tab-button {
+    flex: 1;
+    white-space: nowrap;
+  }
+}

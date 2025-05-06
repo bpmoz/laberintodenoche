@@ -1,0 +1,251 @@
+.episode {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, #000, #292827);
+  font-family: "Montserrat";
+  font-weight: light;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.episode__header {
+  margin-bottom: 30px;
+  color: #a7b1c9;
+}
+
+.episode__back-button {
+  display: inline-block;
+  padding: 10px 0;
+  color: #555;
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.episode__back-button:hover {
+  color: #daddd8;
+}
+
+.episode__title {
+  font-size: 2.2rem;
+  margin: 10px 0;
+}
+
+.episode__meta {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.episode__date {
+  margin-right: 20px;
+}
+
+.episode__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.episode__main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.episode__image-container {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.episode__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.episode__player {
+  background: #f6f6f6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.episode__tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  background-color: #7c6787;
+}
+
+.episode__tab {
+  flex: 1;
+  padding: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  background-color: #3b3b58;
+}
+
+.episode__tab--active {
+  background: #fff;
+  border-bottom: 3px solid #1db954; /* Spotify green */
+  background-color: #a7b1c9;
+}
+
+/* Specific modifier for YouTube tab */
+.episode__tab--active:last-child {
+  border-bottom-color: #ff0000; /* YouTube red */
+}
+
+.episode__player-container {
+  padding: 15px;
+  background: #6a6b83;
+  min-height: 232px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.episode__spotify-iframe,
+.episode__youtube-iframe {
+  border: none;
+}
+
+.episode__description {
+  background: #6a6b83;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.episode__section-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #a7b1c9;
+}
+
+.episode__description-text {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.episode__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.episode__books-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.episode__book {
+  display: flex;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 120px;
+}
+
+.episode__book:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.episode__book-cover {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.episode__book-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.episode__book-info {
+  padding: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #6a6b83;
+}
+
+.episode__book-title {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  color: #031926;
+}
+
+.episode__book-author {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #a7b1c9;
+}
+
+.episode__authors-list {
+  background: #fff;
+  border-radius: 6px;
+  padding: 15px 15px 15px 35px;
+  margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: #6a6b83;
+}
+
+.episode__author-item {
+  margin-bottom: 10px;
+}
+
+.episode__author-item:last-child {
+  margin-bottom: 0;
+}
+
+.episode__loading,
+.episode__error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+  color: #666;
+  background-color: linear-gradient(to right, #000, #292827);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .episode__content {
+    grid-template-columns: 1fr;
+  }
+
+  .episode__sidebar {
+    margin-top: 20px;
+  }
+
+  .episode__books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .episode__title {
+    font-size: 1.8rem;
+  }
+
+  .episode__books-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .episode__tab {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
