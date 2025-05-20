@@ -7,26 +7,23 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 1000,
     },
     episode: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "episode",
+      ref: "Episode",
       required: true,
+      index: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
+      index: true,
     },
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-      },
-    ],
   },
   { timestamps: true }
 );
 
-export const Comments = mongoose.model("comment", commentSchema);
+commentSchema.index({ episode: 1, createdAt: -1 });
+
+export const Comments = mongoose.model("Comment", commentSchema);

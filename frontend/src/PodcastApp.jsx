@@ -19,7 +19,7 @@ function PodcastApp() {
           <Header />
           <Routes>
             <Route path="/" element={<MainComponent />}></Route>
-            <Route path="/episode/:id" element={<EpisodeDetail />} />
+            <Route path="/episode/:slug" element={<EpisodeDetail />} />
             <Route path="/registrate" element={<Register />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/me" element={<UserProfile />}></Route>

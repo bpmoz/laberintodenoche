@@ -14,9 +14,9 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (currentUser) {
-      // fetchFavoriteEpisodes();
-      // fetchFavoriteBooks();
-      //fetchUserComments();
+      fetchFavoriteEpisodes();
+      fetchFavoriteBooks();
+      fetchUserComments();
     }
   }, [currentUser]);
 
@@ -65,16 +65,18 @@ const UserProfile = () => {
       .catch((err) => console.error("Error updating user profile:", err));
   };
 
-  /*  const fetchFavoriteEpisodes = () => {
+  const fetchFavoriteEpisodes = () => {
     api
-      .getFavoriteEpisodes(currentUser.id)
+      .getFavoriteEpisodes()
       .then((episodes) => {
+        console.log("Fetched Favorite Episodes:", episodes); // Keep this log for debugging
+
         setFavoriteEpisodes(episodes);
       })
       .catch((err) => console.error("Error fetching favorite episodes:", err));
-  }; */
+  };
 
-  /* const fetchFavoriteBooks = () => {
+  const fetchFavoriteBooks = () => {
     api
       .getFavoriteBooks(currentUser.id)
       .then((books) => {
@@ -82,15 +84,15 @@ const UserProfile = () => {
       })
       .catch((err) => console.error("Error fetching favorite books:", err));
   };
- */
-  /*   const fetchUserComments = () => {
+
+  const fetchUserComments = () => {
     api
-      .getUserComments(currentUser.id)
+      .getUserComments()
       .then((comments) => {
         setUserComments(comments);
       })
       .catch((err) => console.error("Error fetching user comments:", err));
-  }; */
+  };
 
   const removeFromFavorites = (id, type) => {
     if (type === "episode") {
@@ -132,7 +134,11 @@ const UserProfile = () => {
         <div className="user__profile-header">
           <div className="user__profile-avatar-container">
             <img
-              src={currentUser.profilePicture || "/default-avatar.jpg"}
+              src={
+                currentUser.profilePicture
+                  ? `http://localhost:3002${currentUser.profilePicture}`
+                  : "/default-avatar.jpg"
+              }
               alt="Profile"
               className="user__profile-avatar"
             />
@@ -141,10 +147,10 @@ const UserProfile = () => {
           <div className="user__profile-info">
             <h1 className="user__profile-username">{currentUser.username}</h1>
             <p className="user__profile-email">{currentUser.email}</p>
+            <p className="user__profile-bio">{currentUser.bio}</p>
             <p className="user__profile-joined-date">
               Miembro desde {formatDate(currentUser.createdAt)}
             </p>
-            <p className="user__profile-bio">{currentUser.bio}</p>
             <button
               className="user__profile-edit-button"
               onClick={handleEditProfileClick}
@@ -204,7 +210,12 @@ const UserProfile = () => {
                   {favoriteEpisodes.map((episode) => (
                     <li key={episode.id} className="user__profile-episode-item">
                       <div className="user__profile-episode-image">
-                        <img src={episode.coverImage} alt={episode.title} />
+                        <img
+                          src={`${import.meta.env.VITE_API_URL}/${
+                            episode.imagePath
+                          }`}
+                          alt={episode.title}
+                        />
                         <div className="user__profile-episode-play">
                           <button className="user__profile-play-button">
                             ▶

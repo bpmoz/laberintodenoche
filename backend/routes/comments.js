@@ -1,4 +1,3 @@
-// routes/comments.js
 import express from "express";
 import { Comments } from "../models/comments.js";
 import { auth } from "../middleware/auth.js";
@@ -7,11 +6,29 @@ const router = express.Router();
 
 router.get("/episode/:episodeId", async (req, res, next) => {
   try {
-    const comments = await Comments.find({ episode: req.params.episodeId })
-      .populate("user", "username profilePicture")
-      .sort({ createdAt: -1 });
+    const episodeId = req.params.episodeId;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
 
-    res.json(comments);
+    const comments = await Comments.find({ episode: episodeId })
+      .populate("user", "username profilePicture")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalComments = await Comments.countDocuments({ episode: episodeId });
+
+    const totalPages = Math.ceil(totalComments / limit);
+
+    res.json({
+      comments: comments,
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+        totalComments: totalComments,
+      },
+    });
   } catch (err) {
     next(err);
   }

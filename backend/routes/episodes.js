@@ -45,6 +45,9 @@ router.get("/:slug", async (req, res, next) => {
   }
 });
 
+// backend/routes/episodes.js
+// ... imports ...
+
 // Create new episode
 router.post(
   "/",
@@ -58,6 +61,18 @@ router.post(
       console.log("Request Body:", req.body);
       console.log("Request File:", req.file);
 
+      // --- Check if youtubeId or spotifyId are provided in the body ---
+      const {
+        title,
+        duration,
+        description,
+        tags,
+        publishDate,
+        youtubeId, // <-- Extract youtubeId
+        spotifyId, // <-- Extract spotifyId
+      } = req.body;
+      // --- End extraction ---
+
       if (!req.file) {
         console.log("req.file is undefined!");
         return res.status(400).json({ message: "Episode image is required" });
@@ -66,15 +81,15 @@ router.post(
       const imagePath = `uploads/${req.file.filename}`;
 
       const newEpisode = new Episode({
-        title: req.body.title,
+        title: title, // Use extracted variable
         imagePath: imagePath,
-        duration: parseFloat(req.body.duration),
-        description: req.body.description,
-        tags: req.body.tags
-          ? req.body.tags.split(",").map((tag) => tag.trim())
+        duration: parseFloat(duration), // Use extracted variable
+        description: description, // Use extracted variable
+        tags: tags // Use extracted variable
+          ? tags.split(",").map((tag) => tag.trim())
           : [],
-        publishDate: req.body.publishDate || new Date(),
-        slug: req.body.title
+        publishDate: publishDate || new Date(), // Use extracted variable
+        slug: title // Use extracted variable for slug creation
           .toString()
           .toLowerCase()
           .replace(/\s+/g, "-")
@@ -82,6 +97,9 @@ router.post(
           .replace(/\-\-+/g, "-")
           .replace(/^-+/, "")
           .replace(/-+$/, ""),
+
+        youtubeId: youtubeId, // <-- Add youtubeId field
+        spotifyId: spotifyId, // <-- Add spotifyId field
       });
 
       console.log("New Episode Object:", newEpisode);
@@ -90,6 +108,11 @@ router.post(
       res.status(201).json(savedEpisode);
     } catch (err) {
       console.error("Error creating episode:", err);
+      // Provide a more informative error message if it's a validation error
+      if (err.name === "ValidationError") {
+        const messages = Object.values(err.errors).map((val) => val.message);
+        return res.status(400).json({ message: messages.join(", ") });
+      }
       res.status(500).json({ message: "Failed to create episode" });
     }
   }

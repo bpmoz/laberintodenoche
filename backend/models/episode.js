@@ -14,11 +14,9 @@ const episodeSchema = new mongoose.Schema(
     },
     duration: {
       type: Number,
-      required: true,
     },
     description: {
       type: String,
-      required: true,
     },
     publishDate: {
       type: Date,

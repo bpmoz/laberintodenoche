@@ -4,11 +4,15 @@ import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import commentsRouter from "./routes/comments.js";
+import likeRouter from "./routes/likes.js";
 import cors from "cors";
 import authRouter from "./routes/auth.js";
 import episodesRouter from "./routes/episodes.js";
+import externalApiRoutes from "./routes/external-apis.js";
 import { User } from "./models/user.js";
+import "./models/book.js";
 import bcrypt from "bcrypt";
+import userRouter from "./routes/userRouter.js";
 
 dotenv.config();
 
@@ -16,11 +20,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const app = express();
-const { PORT = 3002, MONGODB_URI = "mongodb://localhost:27017/podcastdb" } =
-  process.env;
+const { PORT = 3002 } = process.env;
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to podcast database");
     createAdminUser();
@@ -80,7 +83,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", authRouter);
 app.use("/api/episodes", episodesRouter);
+app.use("/api/likes", likeRouter);
 app.use("/api/comments", commentsRouter);
+app.use("/api/user", userRouter);
+app.use("/api/external-apis", externalApiRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Resource not found" });

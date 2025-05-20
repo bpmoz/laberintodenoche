@@ -149,13 +149,33 @@ export const updateProfilePicture = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    console.log("req.file details:", req.file);
     const profilePicturePath = `/uploads/${req.file.filename}`;
 
+    if (!req.user || !req.user.userId) {
+      console.error(
+        "User ID not found in req.user for profile picture update."
+      );
+      return res
+        .status(401)
+        .json({ message: "Unauthorized or User ID missing" });
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
+      req.user.userId,
       { profilePicture: profilePicturePath },
       { new: true }
+    ).select(
+      "username email _id createdAt updatedAt isAdmin profilePicture bio"
     );
+
+    console.log("User after DB update:", updatedUser);
+    if (!updatedUser) {
+      console.error(
+        `User not found with ID: ${req.user.userId} for profile picture update.`
+      );
+      return res.status(404).json({ message: "User not found" });
+    }
 
     res.status(200).json({
       message: "Profile picture updated successfully",

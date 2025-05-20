@@ -35,6 +35,19 @@ const userSchema = new mongoose.Schema(
       maxlength: 500,
     },
     isAdmin: { type: Boolean, default: false },
+
+    favoriteEpisodes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "episode", // <-- This references your Episode model (case-sensitive name)
+      },
+    ],
+    favoriteBooks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book", // <-- This references your Book model (case-sensitive name)
+      },
+    ],
   },
   { timestamps: true }
 );
