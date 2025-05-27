@@ -14,6 +14,9 @@ const bookSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    coverImagePath: { type: String }, // e.g., '/uploads/book_covers/the_book.jpg'
+
     // Optional: Reference the episode where the book was featured
     featuredEpisode: {
       type: mongoose.Schema.Types.ObjectId,

@@ -33,7 +33,13 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:slug", async (req, res, next) => {
   try {
-    const episode = await Episode.findOne({ slug: req.params.slug });
+    const episode = await Episode.findOne({ slug: req.params.slug })
+      // --- ADD THIS .populate() CALL HERE ---
+      .populate({
+        path: "mentionedBooks", // This matches the field name in your Episode model
+        select: "title author coverImagePath _id", // These are the fields you want from the Book model
+      })
+      .lean(); // Optional: use .lean() for faster query results if you don't need Mongoose document methods
 
     if (!episode) {
       return res.status(404).json({ message: "Episode not found" });
@@ -44,7 +50,6 @@ router.get("/:slug", async (req, res, next) => {
     next(err);
   }
 });
-
 // backend/routes/episodes.js
 // ... imports ...
 

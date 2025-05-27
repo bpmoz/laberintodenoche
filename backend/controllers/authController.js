@@ -108,11 +108,11 @@ export async function updateProfile(req, res) {
     const userId = req.user.userId;
 
     if (!userId) {
-      return res.status(400).json({ error: "Se requiere UserId" });
+      return res.status(400).json({ error: "UserId required" });
     }
 
     const user = await User.findById(userId).orFail(
-      new Error("Usuario no encontrado")
+      new Error("User not found")
     );
 
     user.bio = bio;
@@ -122,23 +122,21 @@ export async function updateProfile(req, res) {
 
     res.status(200).json(user);
   } catch (error) {
-    console.error("Error actualizando el usuario:", error);
-    console.error("Error actualizando el usuario:", error);
+    console.error("Error updating user:", error);
+    console.error("Error updating user:", error);
     console.error("Error name:", error.name);
     console.error("Error message:", error.message);
     console.error("Error stack:", error.stack);
 
     if (error.name === "ValidationError") {
       return res.status(400).json({
-        error: "Datos inválidos proporcionados para la actualización",
+        error: "Validation error",
         details: error.errors,
       });
-    } else if (error.message === "Usuario no encontrado") {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+    } else if (error.message === "User not found") {
+      return res.status(404).json({ error: "User not found" });
     } else {
-      return res
-        .status(500)
-        .json({ error: "Un error ocurrió al actualizar el usuario" });
+      return res.status(500).json({ error: "Error updating user" });
     }
   }
 }

@@ -69,7 +69,7 @@ const UserProfile = () => {
     api
       .getFavoriteEpisodes()
       .then((episodes) => {
-        console.log("Fetched Favorite Episodes:", episodes); // Keep this log for debugging
+        console.log("Fetched Favorite Episodes:", episodes);
 
         setFavoriteEpisodes(episodes);
       })

@@ -22,6 +22,13 @@ const episodeSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    mentionedBooks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+      },
+    ],
+
     slug: {
       type: String,
       required: true,
