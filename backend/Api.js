@@ -13,6 +13,7 @@ import { User } from "./models/user.js";
 import "./models/book.js";
 import bcrypt from "bcrypt";
 import userRouter from "./routes/userRouter.js";
+import bookRoutes from "./routes/books.js";
 
 dotenv.config();
 
@@ -82,6 +83,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", authRouter);
+app.use("/api/books", bookRoutes);
 app.use("/api/episodes", episodesRouter);
 app.use("/api/likes", likeRouter);
 app.use("/api/comments", commentsRouter);

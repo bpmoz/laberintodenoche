@@ -1,18 +1,15 @@
-/* UserProfile.css */
 .user {
   max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   font-family: "Montserrat", sans-serif;
-  background: linear-gradient(to right, #000, #292827);
+  background: linear-gradient(to bottom, #000, #292827);
 }
 
-/* Profile Section */
 .user__profile {
   width: 100%;
 }
 
-/* Header Section */
 .user__profile-header {
   display: flex;
   gap: 2rem;
@@ -76,7 +73,6 @@
   background-color: #e0e0e0;
 }
 
-/* Tabs Section */
 .user__profile-tabs {
   display: flex;
   margin-bottom: 2rem;
@@ -113,7 +109,6 @@
   background-color: #4a90e2;
 }
 
-/* Content Section */
 .user__profile-content {
   width: 100%;
 }
@@ -131,12 +126,10 @@
   padding: 2rem 0;
 }
 
-/* Episodes Section */
 .user__profile-episodes {
   width: 100%;
 }
 
-/* Episodes List */
 .user__profile-episodes-list,
 .user__profile-books-list,
 .user__profile-comments-list {
@@ -242,7 +235,6 @@
   color: white;
 }
 
-/* Books Section */
 .user__profile-books {
   width: 100%;
 }
@@ -296,7 +288,6 @@
   color: #999;
 }
 
-/* Comments Section */
 .user__profile-comments {
   width: 100%;
 }
@@ -375,7 +366,7 @@
   color: white;
 }
 
-/* Responsive Design */
+/* Responsive Styles */
 @media (max-width: 768px) {
   .user__profile-header {
     flex-direction: column;

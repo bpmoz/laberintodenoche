@@ -1,34 +1,97 @@
-// frontend/src/components/EpisodeDetail.jsx
-
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CurrentUserContext } from "../context/CurrentContextUser";
-import api from "../utils/Api"; // Import your API utility
-// Import your new custom hooks
+import api from "../utils/Api";
 import useLikeToggle from "../hooks/useLikeToggle";
-import useComments from "../hooks/useComments"; // Adjust path if necessary
+import useComments from "../hooks/useComments";
 import BookCard from "./BookCard";
+import CommentSection from "./CommentSection";
+
+const formatDurationIso8601 = (isoDuration) => {
+  if (!isoDuration) return "N/A";
+
+  let durationString = String(isoDuration);
+
+  if (typeof isoDuration === "number") {
+    const totalSeconds = isoDuration;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    let isoParts = "PT";
+    if (hours > 0) isoParts += `${hours}H`;
+    if (minutes > 0) isoParts += `${minutes}M`;
+    if (seconds > 0 || (hours === 0 && minutes === 0 && totalSeconds === 0))
+      isoParts += `${seconds}S`;
+
+    durationString = isoParts;
+    console.log(
+      "Converted number duration to ISO-like string for parsing:",
+      durationString
+    );
+  }
+
+  const matches = durationString.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!matches) {
+    console.warn(
+      "Could not parse duration string using regex:",
+      durationString
+    );
+    return durationString;
+  }
+
+  const hours = parseInt(matches[1] || 0, 10);
+  const minutes = parseInt(matches[2] || 0, 10);
+  const seconds = parseInt(matches[3] || 0, 10);
+
+  let formattedDuration = "";
+  if (hours > 0) {
+    formattedDuration += `${hours}h `;
+  }
+  if (minutes > 0 || hours > 0) {
+    formattedDuration += `${minutes}m `;
+  }
+  if (seconds > 0 || formattedDuration.trim() === "") {
+    formattedDuration += `${seconds}s`;
+  }
+
+  return formattedDuration.trim();
+};
+
+const cleanDescriptionLinks = (text) => {
+  if (!text) return "";
+  const genericUrlRegex =
+    /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9.\-]+(?:\.[a-zA-Z]{2,})(?:\/[^\s]*)?)/g;
+  return text.replace(genericUrlRegex, "");
+};
+
+const removeSpecificWords = (text) => {
+  if (!text) return "";
+  const wordsToRemove = ["spotify", "youtube", "twitter", "instagram"];
+  let modifiedText = text;
+  wordsToRemove.forEach((word) => {
+    const wordRegex = new RegExp(`\\b${word}\\b`, "gi");
+    modifiedText = modifiedText.replace(wordRegex, "");
+  });
+  return modifiedText;
+};
 
 const EpisodeDetail = () => {
   const { slug } = useParams();
   const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
 
-  // --- Main Episode Data States ---
   const [episode, setEpisode] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // --- YouTube Video Data States ---
   const [youtubeVideoData, setYoutubeVideoData] = useState(null);
   const [currentYoutubeId, setCurrentYoutubeId] = useState(null);
 
-  // --- State for initial like status and count (passed to useLikeToggle) ---
   const [initialIsLiked, setInitialIsLiked] = useState(false);
   const [initialLikeCount, setInitialLikeCount] = useState(0);
 
-  // --- Use Custom Hooks ---
   const { isLiked, likeCount, handleLikeToggle } = useLikeToggle(
-    episode?._id, // Pass episode ID to the hook
+    episode?._id,
     initialIsLiked,
     initialLikeCount
   );
@@ -42,14 +105,13 @@ const EpisodeDetail = () => {
     hasMoreComments,
     handleCommentSubmit,
     loadMoreComments,
-  } = useComments(episode?._id); // Pass episode ID to the comments hook
+    commentPage,
+  } = useComments(episode?._id);
 
-  // --- Derived State (YouTube Embed URL) ---
   const youtubeEmbedUrl = currentYoutubeId
     ? `https://www.youtube-nocookie.com/embed/${currentYoutubeId}`
     : null;
 
-  // --- Main Data Fetching Effect ---
   useEffect(() => {
     const fetchEpisodeData = async (currentSlug) => {
       setLoading(true);
@@ -74,21 +136,21 @@ const EpisodeDetail = () => {
             setYoutubeVideoData(youtubeData);
           } catch (youtubeErr) {
             console.error("Error fetching YouTube video metadata:", youtubeErr);
+            setYoutubeVideoData(null);
           }
         } else {
           setCurrentYoutubeId(null);
           setYoutubeVideoData(null);
         }
 
-        // --- Fetch initial like status and count (for useLikeToggle) ---
         if (isLoggedIn && episodeResponse._id) {
           try {
             const likeStatus = await api.getLikeStatus(episodeResponse._id);
-            setInitialIsLiked(likeStatus.liked); // Update initial state for hook
+            setInitialIsLiked(likeStatus.liked);
             const likeCountResponse = await api.getLikeCount(
               episodeResponse._id
             );
-            setInitialLikeCount(likeCountResponse.count); // Update initial state for hook
+            setInitialLikeCount(likeCountResponse.count);
           } catch (likeErr) {
             console.error("Error fetching like status/count:", likeErr);
             setInitialIsLiked(false);
@@ -109,14 +171,21 @@ const EpisodeDetail = () => {
     if (slug) {
       fetchEpisodeData(slug);
     }
-  }, [slug, isLoggedIn]); // isLoggedIn is a dependency for fetching like status
+  }, [slug, isLoggedIn]);
 
   const displayTitle =
     youtubeVideoData?.snippet?.title || episode?.title || "Loading...";
-  const displayDuration =
-    youtubeVideoData?.contentDetails?.duration ||
-    episode?.duration ||
-    "Loading...";
+
+  const displayDuration = formatDurationIso8601(
+    youtubeVideoData?.contentDetails?.duration || episode?.duration
+  );
+
+  const youtubeDescription = youtubeVideoData?.snippet?.description;
+  const cleanedDescription = youtubeDescription
+    ? removeSpecificWords(cleanDescriptionLinks(youtubeDescription))
+    : episode?.description;
+
+  const displayDescription = cleanedDescription;
 
   if (loading) {
     return <div className="episode__loading">Loading episode...</div>;
@@ -133,19 +202,22 @@ const EpisodeDetail = () => {
   return (
     <div className="episode">
       <div className="episode__header">
-        <img
+        {/* <img
           src={`${import.meta.env.VITE_API_URL}/${episode.imagePath}`}
           alt={episode.title}
           className="episode__image"
-        />
+        /> */}
         <div className="episode__info">
           <h1 className="episode__title">{displayTitle}</h1>
-          <p className="episode__duration">Duration: {displayDuration}</p>
+          <p className="episode__duration">Duración: {displayDuration}</p>
           <p className="episode__description">
-            {episode.description || youtubeVideoData?.snippet?.description}
+            {" "}
+            + : + : + :{displayDescription}
           </p>
           {episode.tags && episode.tags.length > 0 && (
-            <p className="episode__tags">Tags: {episode.tags.join(", ")}</p>
+            <p className="episode__tags">
+              Etiquetas: {episode.tags.join(", ")}
+            </p>
           )}
         </div>
       </div>
@@ -167,114 +239,53 @@ const EpisodeDetail = () => {
         </div>
       </div>
 
-      {/* --- Books Mentioned Section - Now using the imported BookCard --- */}
+      {}
+      <div className="episode__like-section">
+        {" "}
+        {}
+        <button
+          className={`episode__like-button ${
+            isLiked ? "episode__like-button--active" : ""
+          }`}
+          onClick={handleLikeToggle}
+          disabled={!isLoggedIn || !episode._id}
+        >
+          {isLiked ? "❤️" : "🤍"} {likeCount}
+        </button>
+        {!isLoggedIn && (
+          <span className="episode__auth-message">
+            <Link to="/login" className="episode__link">
+              Unite al laberinto
+            </Link>{" "}
+            para dar like
+          </span>
+        )}
+      </div>
+
       {episode.mentionedBooks && episode.mentionedBooks.length > 0 && (
         <div className="episode__books-section">
-          <h3 className="episode__books-title">Books Mentioned</h3>
+          <h3 className="episode__books-title">Libros mencionados</h3>
           <div className="episode__books-list">
             {episode.mentionedBooks.map((book) => (
-              // Just pass the 'book' prop, BookCard will handle login/user context
               <BookCard key={book._id} book={book} />
             ))}
           </div>
         </div>
       )}
-      {/* --- END Books Section --- */}
 
-      <div className="episode__engagement">
-        {}
-        <div className="episode__like-section">
-          <button
-            className={`episode__like-button ${
-              isLiked ? "episode__like-button--active" : ""
-            }`}
-            onClick={handleLikeToggle}
-            disabled={!isLoggedIn || !episode._id}
-          >
-            {isLiked ? "❤️" : "🤍"} {likeCount}
-          </button>
-          {!isLoggedIn && (
-            <span className="episode__auth-message">
-              <Link to="/login">Unite al laberinto</Link> para dar like
-            </span>
-          )}
-        </div>
-
-        {}
-        <div className="episode__comments-section">
-          <h3 className="episode__comments-title">
-            comentarios ({comments.length})
-          </h3>
-
-          {isLoggedIn ? (
-            <form
-              className="episode__comment-form"
-              onSubmit={handleCommentSubmit}
-            >
-              <textarea
-                className="episode__comment-input"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Share your thoughts..."
-                rows={3}
-                required
-              />
-              <button
-                className="episode__comment-submit"
-                type="submit"
-                disabled={submittingComment || !newComment.trim()}
-              >
-                {submittingComment ? "Posteando" : "Comentario posteado"}
-              </button>
-            </form>
-          ) : (
-            <div className="episode__auth-prompt">
-              <Link to="/login">Unite al laberinto</Link> para comentar
-            </div>
-          )}
-
-          <div className="episode__comments-list">
-            {loadingComments && commentPage === 1 ? (
-              <p>Cargando comentarios...</p>
-            ) : comments.length > 0 ? (
-              <>
-                {comments.map((comment) => (
-                  <div key={comment._id} className="episode__comment">
-                    {" "}
-                    {}
-                    <div className="episode__comment-header">
-                      <span className="episode__comment-author">
-                        {comment.user ? comment.user.username : "Unknown User"}{" "}
-                        {}
-                      </span>
-                      <span className="episode__comment-date">
-                        {new Date(comment.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p className="episode__comment-content">
-                      {comment.content}
-                    </p>
-                  </div>
-                ))}
-
-                {hasMoreComments && (
-                  <button
-                    className="episode__load-more-comments"
-                    onClick={loadMoreComments}
-                    disabled={loadingComments}
-                  >
-                    {loadingComments ? "Cargando" : "Cargar más comentarios"}
-                  </button>
-                )}
-              </>
-            ) : (
-              <p className="episode__no-comments">
-                Sin comentarios aún. Sé el primero en comentar.
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
+      {}
+      <CommentSection
+        comments={comments}
+        newComment={newComment}
+        setNewComment={setNewComment}
+        submittingComment={submittingComment}
+        loadingComments={loadingComments}
+        hasMoreComments={hasMoreComments}
+        handleCommentSubmit={handleCommentSubmit}
+        loadMoreComments={loadMoreComments}
+        commentPage={commentPage}
+        isLoggedIn={isLoggedIn}
+      />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// routes/auth.js
 import express from "express";
 import dotenv from "dotenv";
 import { upload } from "../uploadConfig.js";

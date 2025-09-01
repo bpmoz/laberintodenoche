@@ -2,7 +2,7 @@
   max-width: 100%;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(to right, #000, #292827);
+  background: linear-gradient(to bottom, #000, #292827);
   font-family: "Montserrat";
   font-weight: light;
   font-weight: 100;
@@ -62,6 +62,8 @@
 
 .episode__image {
   width: 100%;
+  max-width: 30px;
+  max-height: 20px;
   height: auto;
   display: block;
 }
@@ -89,17 +91,6 @@
   background-color: #3b3b58;
 }
 
-.episode__tab--active {
-  background: #fff;
-  border-bottom: 3px solid #1db954; /* Spotify green */
-  background-color: #a7b1c9;
-}
-
-/* Specific modifier for YouTube tab */
-.episode__tab--active:last-child {
-  border-bottom-color: #ff0000; /* YouTube red */
-}
-
 .episode__player-container {
   padding: 15px;
   background: #6a6b83;
@@ -115,10 +106,17 @@
 }
 
 .episode__description {
-  background: #6a6b83;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --text-color: #f0f0f0;
+  --bg-dark: #1a1a1a;
+  --bg-medium: #292827;
+  --bg-light: #3a3a3a;
+  --accent-color: #007bff;
+  --accent-hover-color: #0056b3;
+  --border-color: #444;
+  --border-radius: 8px;
+  --spacing-small: 10px;
+  --spacing-medium: 20px;
+  --spacing-large: 30px;
 }
 
 .episode__section-title {
@@ -218,6 +216,81 @@
   font-size: 1.2rem;
   color: #666;
   background-color: linear-gradient(to right, #000, #292827);
+}
+
+.episode__like-section {
+  max-width: 800px;
+  margin: var(--spacing-medium) auto var(--spacing-large) auto;
+  padding: var(--spacing-small);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-small);
+  background: var(--bg-dark);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.episode__like-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: 2px solid var(--accent-color);
+  border-radius: 50px;
+  background-color: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.episode__like-button:hover:not(:disabled) {
+  background-color: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  /box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.episode__like-button--active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-hover-color);
+}
+
+.episode__like-button:disabled {
+  background-color: #444;
+  border-color: #666;
+  color: #bbb;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.episode__like-button span {
+  font-size: 1.5em;
+}
+
+.episode__auth-message {
+  font-size: 0.9em;
+  color: #a7b1c9;
+}
+
+.episode__auth-message a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.episode__auth-message a:hover {
+  text-decoration: underline;
+}
+
+.episode__link {
+  color: #a7b1c9;
 }
 
 /* Responsive styles */

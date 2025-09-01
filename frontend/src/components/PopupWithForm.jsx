@@ -1,5 +1,4 @@
 import React from "react";
-//import closeBtn from "../images/Closeicon.png";
 import PropTypes from "prop-types";
 import FormValidator from "../utils/FormValidator";
 

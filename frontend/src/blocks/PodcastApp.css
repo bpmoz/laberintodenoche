@@ -14,7 +14,6 @@
   position: relative;
 }
 
-/* Episodes List */
 .episodes-list {
   display: flex;
   flex-direction: column;
@@ -70,13 +69,13 @@
   transform: scale(1.05);
 }
 
-/* About Section */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
 }
 
+/* Responsive styles */
 @media (min-width: 768px) {
   .about-grid {
     grid-template-columns: 3fr 2fr;

@@ -263,7 +263,12 @@ const UserProfile = () => {
                   {favoriteBooks.map((book) => (
                     <li key={book.id} className="user__profile-book-item">
                       <div className="user__profile-book-image">
-                        <img src={book.coverImage} alt={book.title} />
+                        <img
+                          src={`${import.meta.env.VITE_API_URL}/${
+                            book.coverImagePathkmf
+                          }`}
+                          alt={book.title}
+                        />
                       </div>
                       <div className="user__profile-book-info">
                         <h3 className="user__profile-book-title">

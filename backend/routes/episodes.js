@@ -1,22 +1,124 @@
-// routes/episodes.js
 import express from "express";
 import { Episode } from "../models/episode.js";
 import { auth, adminOnly } from "../middleware/auth.js";
 import { upload } from "../uploadConfig.js";
+import { Book } from "../models/book.js";
 const router = express.Router();
 
+// GET /api/episodes - Get all episodes with optional search and pagination
 router.get("/", async (req, res, next) => {
   try {
+    const { search } = req.query;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const episodes = await Episode.find()
-      .sort({ publishDate: -1 })
-      .skip(skip)
-      .limit(limit);
+    let aggregationPipeline = [];
 
-    const total = await Episode.countDocuments();
+    if (search) {
+      const searchRegex = new RegExp(search, "i");
+
+      aggregationPipeline.push(
+        {
+          $lookup: {
+            from: "books",
+            localField: "mentionedBooks",
+            foreignField: "_id",
+            as: "mentionedBooksData",
+          },
+        },
+
+        {
+          $unwind: {
+            path: "$mentionedBooksData",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $match: {
+            $or: [
+              { title: searchRegex },
+              { description: searchRegex },
+              { tags: searchRegex },
+              { "mentionedBooksData.title": searchRegex },
+              { "mentionedBooksData.author": searchRegex },
+            ],
+          },
+        },
+
+        {
+          $group: {
+            _id: "$_id",
+            title: { $first: "$title" },
+            description: { $first: "$description" },
+            slug: { $first: "$slug" },
+            imagePath: { $first: "$imagePath" },
+            duration: { $first: "$duration" },
+            publishDate: { $first: "$publishDate" },
+            spotifyId: { $first: "$spotifyId" },
+            youtubeId: { $first: "$youtubeId" },
+            tags: { $first: "$tags" },
+            createdAt: { $first: "$createdAt" },
+            updatedAt: { $first: "$updatedAt" },
+            isFeatured: { $first: "$isFeatured" },
+            mentionedBooks: {
+              $push: {
+                $cond: [
+                  { $ifNull: ["$mentionedBooksData", false] },
+                  "$mentionedBooksData",
+                  "$$REMOVE",
+                ],
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            title: 1,
+            description: 1,
+            slug: 1,
+            imagePath: 1,
+            duration: 1,
+            publishDate: 1,
+            spotifyId: 1,
+            youtubeId: 1,
+            tags: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            isFeatured: 1,
+            mentionedBooks: {
+              $filter: {
+                input: "$mentionedBooks",
+                as: "book",
+                cond: { $ne: ["$$book", null] },
+              },
+            },
+          },
+        }
+      );
+    } else {
+      aggregationPipeline.push({
+        $lookup: {
+          from: "books",
+          localField: "mentionedBooks",
+          foreignField: "_id",
+          as: "mentionedBooks",
+        },
+      });
+    }
+
+    aggregationPipeline.push({ $sort: { publishDate: -1 } });
+
+    const totalAggregationPipeline = [...aggregationPipeline];
+    totalAggregationPipeline.push({ $count: "total" });
+
+    const totalResults = await Episode.aggregate(totalAggregationPipeline);
+    const total = totalResults.length > 0 ? totalResults[0].total : 0;
+
+    aggregationPipeline.push({ $skip: skip }, { $limit: limit });
+
+    const episodes = await Episode.aggregate(aggregationPipeline);
 
     res.json({
       episodes,
@@ -27,19 +129,19 @@ router.get("/", async (req, res, next) => {
       },
     });
   } catch (err) {
-    next(err);
+    console.error("Error fetching episodes (Backend):", err);
+    res.status(500).json({ message: "Error fetching episodes" });
   }
 });
 
 router.get("/:slug", async (req, res, next) => {
   try {
     const episode = await Episode.findOne({ slug: req.params.slug })
-      // --- ADD THIS .populate() CALL HERE ---
       .populate({
-        path: "mentionedBooks", // This matches the field name in your Episode model
-        select: "title author coverImagePath _id", // These are the fields you want from the Book model
+        path: "mentionedBooks",
+        select: "title author coverImagePath _id",
       })
-      .lean(); // Optional: use .lean() for faster query results if you don't need Mongoose document methods
+      .lean();
 
     if (!episode) {
       return res.status(404).json({ message: "Episode not found" });
@@ -50,8 +152,6 @@ router.get("/:slug", async (req, res, next) => {
     next(err);
   }
 });
-// backend/routes/episodes.js
-// ... imports ...
 
 // Create new episode
 router.post(
@@ -66,17 +166,8 @@ router.post(
       console.log("Request Body:", req.body);
       console.log("Request File:", req.file);
 
-      // --- Check if youtubeId or spotifyId are provided in the body ---
-      const {
-        title,
-        duration,
-        description,
-        tags,
-        publishDate,
-        youtubeId, // <-- Extract youtubeId
-        spotifyId, // <-- Extract spotifyId
-      } = req.body;
-      // --- End extraction ---
+      const { title, duration, description, tags, publishDate, youtubeId } =
+        req.body;
 
       if (!req.file) {
         console.log("req.file is undefined!");
@@ -86,15 +177,13 @@ router.post(
       const imagePath = `uploads/${req.file.filename}`;
 
       const newEpisode = new Episode({
-        title: title, // Use extracted variable
+        title: title,
         imagePath: imagePath,
-        duration: parseFloat(duration), // Use extracted variable
-        description: description, // Use extracted variable
-        tags: tags // Use extracted variable
-          ? tags.split(",").map((tag) => tag.trim())
-          : [],
-        publishDate: publishDate || new Date(), // Use extracted variable
-        slug: title // Use extracted variable for slug creation
+        duration: parseFloat(duration),
+        description: description,
+        tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+        publishDate: publishDate || new Date(),
+        slug: title
           .toString()
           .toLowerCase()
           .replace(/\s+/g, "-")
@@ -103,8 +192,7 @@ router.post(
           .replace(/^-+/, "")
           .replace(/-+$/, ""),
 
-        youtubeId: youtubeId, // <-- Add youtubeId field
-        spotifyId: spotifyId, // <-- Add spotifyId field
+        youtubeId: youtubeId,
       });
 
       console.log("New Episode Object:", newEpisode);
@@ -113,7 +201,6 @@ router.post(
       res.status(201).json(savedEpisode);
     } catch (err) {
       console.error("Error creating episode:", err);
-      // Provide a more informative error message if it's a validation error
       if (err.name === "ValidationError") {
         const messages = Object.values(err.errors).map((val) => val.message);
         return res.status(400).json({ message: messages.join(", ") });
@@ -151,6 +238,114 @@ router.put(
       }
 
       res.json(episode);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.put("/:id/add-mentioned-book", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { bookId } = req.body;
+
+    if (!bookId) {
+      return res
+        .status(400)
+        .json({ message: "Book ID is required in the request body." });
+    }
+
+    const updatedEpisode = await Episode.findByIdAndUpdate(
+      id,
+      { $addToSet: { mentionedBooks: bookId } },
+      { new: true, runValidators: true }
+    ).populate({
+      path: "mentionedBooks",
+      select: "title author coverImagePath _id",
+    });
+
+    if (!updatedEpisode) {
+      return res.status(404).json({ message: "Episode not found." });
+    }
+
+    res.json(updatedEpisode);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// --- ROUTE TO REMOVE A MENTIONED BOOK ---
+router.put("/:id/remove-mentioned-book", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { bookId } = req.body;
+
+    if (!bookId) {
+      return res.status(400).json({
+        message: "Book ID is required in the request body to remove it.",
+      });
+    }
+
+    const updatedEpisode = await Episode.findByIdAndUpdate(
+      id,
+      { $pull: { mentionedBooks: bookId } },
+      { new: true, runValidators: true }
+    ).populate({
+      path: "mentionedBooks",
+      select: "title author coverImagePath _id",
+    });
+
+    if (!updatedEpisode) {
+      return res.status(404).json({ message: "Episode not found." });
+    }
+
+    res.json(updatedEpisode);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put(
+  "/:id/remove-single-mentioned-book-instance",
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { bookId } = req.body;
+
+      if (!bookId) {
+        return res
+          .status(400)
+          .json({ message: "Book ID is required to remove an instance." });
+      }
+
+      const episode = await Episode.findById(id);
+
+      if (!episode) {
+        return res.status(404).json({ message: "Episode not found." });
+      }
+
+      const indexToRemove = episode.mentionedBooks.indexOf(bookId);
+
+      if (indexToRemove === -1) {
+        return res.status(400).json({
+          message: "Book not found in mentionedBooks array for this episode.",
+        });
+      }
+
+      episode.mentionedBooks.splice(indexToRemove, 1);
+
+      episode.markModified("mentionedBooks");
+
+      await episode.save();
+
+      const populatedEpisode = await Episode.findById(id)
+        .populate({
+          path: "mentionedBooks",
+          select: "title author coverImagePath _id",
+        })
+        .lean();
+
+      res.json(populatedEpisode);
     } catch (err) {
       next(err);
     }

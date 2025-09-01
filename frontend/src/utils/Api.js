@@ -105,8 +105,16 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  getEpisodes() {
-    return fetch(`${this.baseUrl}/api/episodes`, {
+  getEpisodes(searchTerm = "", page = 1, limit = 10) {
+    let url = `${this.baseUrl}/api/episodes?page=${page}&limit=${limit}`;
+
+    if (searchTerm) {
+      url += `&search=${encodeURIComponent(searchTerm)}`;
+    }
+
+    console.log("Fetching episodes from URL:", url);
+
+    return fetch(url, {
       method: "GET",
     }).then(this._checkResponse);
   }
@@ -185,11 +193,10 @@ class Api {
       console.warn("toggleFavoriteBookStatus called without a bookId");
       return Promise.reject("Book ID is required to toggle favorite status.");
     }
-    // Assuming backend endpoint is /api/books/favorite
     return fetch(`${this.baseUrl}/api/books/favorite`, {
-      method: method, // Will be 'POST' for favoriting, 'DELETE' for unfavoriting
-      headers: this.getHeaders(), // Requires authentication
-      body: method === "POST" ? JSON.stringify({ bookId }) : undefined, // Send bookId in body for POST
+      method: method,
+      headers: this.getHeaders(),
+      body: method === "POST" ? JSON.stringify({ bookId }) : undefined,
     }).then(this._checkResponse);
   }
 
@@ -270,6 +277,34 @@ class Api {
       body: JSON.stringify({ episodeId, content }),
     }).then(this._checkResponse);
   }
+
+  deleteComment = async (commentId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found.");
+      }
+      const response = await fetch(
+        `${API_BASE_URL}/api/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete comment.");
+      }
+      return { success: true, message: "Comment deleted successfully." };
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      throw error;
+    }
+  };
 }
 
 const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3002";

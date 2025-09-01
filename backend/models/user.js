@@ -1,4 +1,3 @@
-// models/user.js
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
@@ -39,13 +38,13 @@ const userSchema = new mongoose.Schema(
     favoriteEpisodes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "episode", // <-- This references your Episode model (case-sensitive name)
+        ref: "episode",
       },
     ],
     favoriteBooks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Book", // <-- This references your Book model (case-sensitive name)
+        ref: "Book",
       },
     ],
   },
