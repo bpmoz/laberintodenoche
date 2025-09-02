@@ -1,28 +1,36 @@
 /* frontend/src/blocks/themes.css */
+
+/* Light Mode (Default) */
 :root {
   --background-primary: #f0f2f5;
   --background-secondary: #ffffff;
+  --background-secondary-rgb: 255, 255, 255; /* New variable for RGB */
   --text-primary: #34495e;
   --text-secondary: #555;
   --accent-color: #005f73;
   --border-color: #d1d9e6;
   --box-shadow-light: 10px 10px 30px #d1d9e6, -10px -10px 30px #ffffff;
   --box-shadow-dark: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
-  --logo-filter: none;
+  --logo-filter: invert(100%);
+  --icon-filter: none; /* New variable: icon is dark by default */
 }
 
+/* Dark Mode Overrides */
 body.dark-mode {
   --background-primary: #121212;
   --background-secondary: #1e1e1e;
+  --background-secondary-rgb: 30, 30, 30; /* New variable for RGB */
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
   --accent-color: #bb86fc;
   --border-color: #2c2c2c;
   --box-shadow-light: 10px 10px 30px rgba(0, 0, 0, 0.5), -10px -10px 30px #222;
   --box-shadow-dark: 8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px #222;
-  --logo-filter: invert(100%);
+  --logo-filter: none;
+  --icon-filter: invert(100%); /* New variable: icon is light in dark mode */
 }
 
+/* Base body styles are defined here and use the variables */
 body {
   background-color: var(--background-primary);
   color: var(--text-primary);

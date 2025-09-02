@@ -10,16 +10,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* A consistent, semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5);
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease;
-  z-index: 200; /* High z-index to be on top of everything */
+  z-index: 200;
 }
 
 .popup__open {
@@ -54,6 +49,7 @@
   background-color: transparent;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  padding: 0;
 }
 
 .popup__close-icon:hover {
@@ -61,7 +57,9 @@
 }
 
 .popup__close-icon-image {
-  filter: var(--logo-filter); /* Use theme filter for SVG icons */
+  filter: var(--icon-filter); /* Changed to the new filter variable */
+  width: 100%;
+  height: 100%;
 }
 
 /* --- Header and Content --- */

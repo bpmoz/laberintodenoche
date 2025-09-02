@@ -64,7 +64,7 @@ const MainComponent = () => {
         className="custom__input-search"
       />
 
-      <h2>Latest Episodes</h2>
+      <h2>Todos los episodios</h2>
 
       {}
       {loading ? (

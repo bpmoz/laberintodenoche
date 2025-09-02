@@ -44,12 +44,9 @@ function Header() {
                 Unite al laberinto
               </Link>
             )}
-            <a href="#about" className="header__secondary-button">
-              Sobre nosotros
-            </a>
           </>
         )}
-        {/* Add the theme toggle button here */}
+        {}
         <button onClick={toggleTheme} className="theme-toggle-button">
           {theme === "light" ? "🌙" : "☀️"}
         </button>

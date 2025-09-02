@@ -1,9 +1,12 @@
 /* frontend/src/header.css */
 
 .header {
-  background-color: var(--background-secondary);
+  /* Use a semi-transparent color for the background */
+  background-color: rgba(var(--background-secondary-rgb), 0.8);
+  /* Apply a blur filter to the background */
+  backdrop-filter: blur(10px);
+
   color: var(--text-primary);
-  /* The fix is here: use the correct box-shadow variable */
   box-shadow: var(--box-shadow-light);
   padding: 20px;
   display: flex;
@@ -12,13 +15,13 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    backdrop-filter 0.3s ease;
 }
 
 .header__logo {
   max-width: 150px;
   max-height: 80px;
-  /* This filter needs to be defined in your themes.css file */
   filter: var(--logo-filter);
 }
 
@@ -56,9 +59,7 @@
 
 .header__primary-button:hover,
 .header__secondary-button:hover {
-  background-color: var(
-    --border-color
-  ); /* Use a variable for hover background */
+  background-color: var(--border-color);
   transform: translateY(-2px);
 }
 

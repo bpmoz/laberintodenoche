@@ -8,12 +8,12 @@
 
 .custom__input {
   width: 100%;
-  min-height: 50px; /* Use px for better control */
-  padding: 10px 20px;
+  min-height: 50px;
+  padding: 10px 40px;
   font-size: 1rem;
   color: var(--text-primary);
   background-color: var(--background-secondary);
-  border: none; /* Neumorphic design uses shadows instead of borders */
+  border: none;
   border-radius: 25px;
   box-shadow: inset 5px 5px 10px var(--border-color),
     inset -5px -5px 10px var(--background-secondary);
@@ -29,7 +29,7 @@
 /* Specific styles for the search input */
 .custom__input-search {
   min-width: 40vw;
-  padding-left: 50px; /* Add extra padding for a search icon if needed */
+  padding-left: 50px;
 }
 
 .custom__input::placeholder {

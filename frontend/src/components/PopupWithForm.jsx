@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FormValidator from "../utils/FormValidator";
+import closeIcon from "../images/close-icon.png";
 
 export default function PopupWithForm(props) {
   PopupWithForm.propTypes = {
@@ -11,18 +11,6 @@ export default function PopupWithForm(props) {
     onSubmit: PropTypes.func.isRequired,
     btnText: PropTypes.string.isRequired,
   };
-  /*   const formRef = React.useRef();
-  React.useEffect(() => {
-    const validator = new FormValidator(formRef.current, {
-      inputSelector: ".popup__input",
-      formSelector: ".popup__form",
-      submitButtonSelector: ".popup__btn",
-      inactiveButtonClass: "popup__btn_disabled",
-      inputErrorClass: "popup__input_error",
-      inputErrorMessageClass: "popup__input-error_message",
-    });
-    validator.enableValidation();
-  }); */
 
   return (
     <div
@@ -31,31 +19,31 @@ export default function PopupWithForm(props) {
       }`}
     >
       <div className="popup__container">
-        <div className="popup__overlay" onClick={props.onClose}></div>
+        <button
+          className="popup__close-icon"
+          type="button"
+          onClick={props.onClose}
+        >
+          <img
+            src={closeIcon}
+            alt="Close"
+            className="popup__close-icon-image"
+          />
+        </button>
         <form
-          // ref={formRef}
-          id="profile-form"
           className={`popup__form popup__${props.name}`}
           onSubmit={props.onSubmit}
           name={props.name}
           noValidate
         >
-          {/*   <img
-            onClick={props.onClose}
-            src={closeBtn}
-            alt="Close icon"
-            className="popup__close-icon"
-            id="popup-close"
-          /> */}
           <h2 className="popup__header">{props.title}</h2>
-
           {props.children}
-
           <button type="submit" className="popup__btn">
             {props.btnText}
           </button>
         </form>
       </div>
+      <div className="popup__overlay" onClick={props.onClose}></div>
     </div>
   );
 }

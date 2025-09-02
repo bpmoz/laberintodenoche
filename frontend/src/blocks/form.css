@@ -1,8 +1,7 @@
 /* frontend/src/blocks/form.css */
 
-/* --- Form Container & Main Layout --- */
 .form__container {
-  max-width: 400px; /* A slightly more fixed width */
+  max-width: 400px;
   min-width: 280px;
   margin: 50px auto;
   padding: 40px;
@@ -18,7 +17,6 @@
   gap: 20px;
 }
 
-/* --- Form Title --- */
 .form__title {
   font-size: 2rem;
   font-weight: 700;
@@ -27,7 +25,6 @@
   color: var(--text-primary);
 }
 
-/* --- Input Fields (Sunk-in effect) --- */
 .form__group {
   position: relative;
 }
@@ -35,7 +32,7 @@
 .form__icon {
   position: absolute;
   left: 15px;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   color: var(--text-secondary);
   pointer-events: none;
@@ -46,6 +43,8 @@
 .form__input,
 .password__input {
   width: 100%;
+  box-sizing: border-box;
+
   padding: 12px 15px 12px 45px;
   background-color: var(--background-primary);
   border: none;
@@ -58,11 +57,15 @@
   outline: none;
 }
 
+.password__input {
+  padding: 12px 45px 12px 45px;
+}
+
 .form__input:focus,
 .password__input:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px var(--accent-color);
+  outline: none;
   background-color: var(--background-primary);
+  box-shadow: 0 0 0 3px var(--accent-color);
 }
 
 .form__password-toggle {
@@ -77,7 +80,6 @@
   z-index: 2;
 }
 
-/* --- Submit Button (Popped-out effect) --- */
 .form__submit-btn {
   width: 100%;
   background-color: var(--accent-color);
@@ -145,7 +147,7 @@
   .form__container {
     margin: 20px auto;
     padding: 30px 20px;
-    box-shadow: none; /* Remove shadow on mobile for a cleaner look */
+    box-shadow: none;
   }
 
   .form__title {

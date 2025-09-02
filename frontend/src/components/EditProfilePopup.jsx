@@ -93,7 +93,7 @@ function EditProfilePopup({
         value={username}
         placeholder="Nombre de usuario"
         onChange={handleChangeUsername}
-        className="popup__input"
+        className="form__input" // Changed class name
         id="input-username"
         required
         minLength="2"
@@ -106,7 +106,7 @@ function EditProfilePopup({
         value={bio}
         placeholder="Biografía"
         onChange={handleChangeBio}
-        className="popup__input"
+        className="form__input" // Changed class name
         id="input-bio"
         required
         minLength="2"
@@ -120,6 +120,7 @@ function EditProfilePopup({
         id="profile-picture-input"
         ref={fileInputRef}
         style={{ marginTop: "10px" }}
+        className="form__input" // Added form__input class
       />
       <span className="popup__error-visible input-bio-error"></span>
     </PopupWithForm>
