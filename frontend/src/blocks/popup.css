@@ -1,299 +1,129 @@
+/* frontend/src/blocks/popup.css */
+
+/* --- Pop-up Overlay and Main Container --- */
 .popup {
-  display: none;
   position: fixed;
-  top: 20%;
-  left: 39%;
-  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* A consistent, semi-transparent overlay */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease;
+  z-index: 200; /* High z-index to be on top of everything */
 }
 
 .popup__open {
-  display: flex;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  z-index: 2;
-}
-
-.popup__image {
-  display: none;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-}
-.popup__image-open {
-  position: fixed;
-  top: 5%;
-  display: flex;
-  justify-content: flex-start;
-  max-width: 200px;
-}
-
-.popup__image-full {
-  position: relative;
-  min-width: 433px;
-  min-height: 540px;
-  max-width: 433px;
-  max-height: 540px;
-  object-fit: cover;
-  z-index: 2;
-}
-
-.popup__overlay {
-  position: fixed;
-  right: 25px;
-  top: 0px;
-  width: 10000px;
-  height: 10000px;
-  background-color: rgb(0, 0, 0, 0.5);
-  z-index: 1;
-}
-.popup__close-icon-image {
-  width: 40px;
-  position: relative;
-  top: 10%;
-  left: 55%;
-  z-index: 2;
-}
-.popup__form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 430px;
-  height: 330px;
-  background-color: white;
-  background: #ffffff;
-  border-radius: 10px;
-  position: fixed;
-  z-index: 2;
-}
-
-.popup__form-confirmation {
-  width: 430px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 180px;
-  background-color: white;
-  background: #ffffff;
-  border-radius: 10px;
-  position: fixed;
-  z-index: 2;
+  visibility: visible;
+  opacity: 1;
 }
 
 .popup__container {
-  position: fixed;
+  position: relative;
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow-light);
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  min-width: 430px;
-  min-height: 330px;
-  max-width: 433px;
-  max-height: 540px;
-  z-index: 2;
+  gap: 20px;
+  max-width: 450px;
+  width: 90%;
+  transition: transform 0.3s ease;
 }
 
-.popup__image-container {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  min-width: 430px;
-  min-height: 330px;
-  max-width: 433px;
-  max-height: 540px;
-}
-
-.popup__image-title {
-  position: fixed;
-  top: 50%;
-  left: 39%;
-  z-index: 2;
-  color: white;
-}
-
+/* --- Close Icon --- */
 .popup__close-icon {
   position: absolute;
-  width: 40px;
-
-  top: -43px;
-  right: -43px;
-  z-index: 1000;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 }
 
 .popup__close-icon:hover {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-.popup__btn {
-  background: #000000;
-  border-radius: 2px;
-  width: 358px;
-  height: 50px;
-  color: white;
-  font-family: Inter;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 21.78px;
+.popup__close-icon-image {
+  filter: var(--logo-filter); /* Use theme filter for SVG icons */
+}
+
+/* --- Header and Content --- */
+.popup__header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
   text-align: center;
 }
 
-.popup__btn:hover {
-  opacity: 0.8;
-  cursor: pointer;
-}
+/* --- Input Field Styles (Moved to form.css) --- */
+/* The styles for .popup__input and .popup__btn are
+   now managed in form.css to avoid repetition. */
 
-.popup__btn_disabled {
-  background-color: #fff;
-  color: #ccc;
-  border: 1px solid #ccc;
-  pointer-events: none;
-}
-
-.popup__input {
-  width: 358px;
-  border-top: 1px;
-  border-left: 0;
-  border-right: 0;
-  border-color: #c4c4c4;
-}
-
+/* --- Error and Message Styles --- */
 .popup__input_type_error {
-  border-bottom: 1px solid red;
+  border-color: red;
+  box-shadow: 0 0 0 2px red;
 }
+
 .popup__error-visible {
-  color: #ff0000;
-  font-family: "Inter regular";
-  font-size: 12px;
-  max-width: 360px;
+  color: red;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
-.popup__header {
-  font-family: Inter;
-  font-size: 24px;
-  font-weight: 900;
-  line-height: 29.05px;
-  align-self: flex-start;
-  margin-left: 35px;
-  margin-top: 0;
-  margin-bottom: 0;
-
-  color: #000000;
+/* --- Image Pop-up (Refactored) --- */
+.popup__image-container {
+  position: relative;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
-@media screen and (max-width: 1500px) {
-  .popup__open {
-    top: 15%;
-    left: 37%;
-    position: absolute;
-  }
-  .popup__image-title {
-    position: absolute;
-    top: 110%;
-    left: 2%;
-    margin: 0;
-    font-size: 14px;
-    width: 90px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .popup__close-icon-image {
-    width: 40px;
-    position: relative;
-    top: 20%;
-    left: 55%;
-    z-index: 2;
-  }
+.popup__image-full {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  transition: transform 0.3s ease;
 }
 
-@media screen and (max-width: 1025px) {
-  .popup__open {
-    top: 15%;
-    left: 20%;
-    position: absolute;
-  }
-
-  .popup__image-full {
-    position: relative;
-  }
-  .popup__image-title {
-    position: absolute;
-    top: 110%;
-    left: 2%;
-    margin: 0;
-    font-size: 14px;
-    width: 90px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .popup__form {
-    position: relative;
-    margin-left: 20%;
-  }
+.popup__image-title {
+  position: absolute;
+  bottom: -30px;
+  color: white;
+  text-align: center;
+  width: 100%;
 }
 
-@media screen and (max-width: 500px) {
-  .popup__open {
-    max-width: 250px;
-    top: 30%;
-    left: 10%;
-    position: absolute;
-  }
-
-  .popup__form {
-    max-width: 250px;
-    position: fixed;
-    margin-left: 2%;
-  }
-
-  .popup__input {
-    max-width: 150px;
-  }
-
-  .popup__btn {
-    max-width: 150px;
-  }
-
-  .popup__close-icon {
-    width: 25px;
-    right: 110px;
-  }
-
-  .popup__image-container {
-    display: flex;
-    justify-self: center;
-    align-items: center;
-    max-width: 200px;
-  }
-
+/* --- Responsive Styles --- */
+@media (max-width: 768px) {
   .popup__container {
-    display: flex;
-    justify-content: center;
-    top: 20%;
-    left: -17%;
+    width: 90%;
+    padding: 30px;
   }
+}
 
-  .popup__image-title {
-    top: 320px;
-    left: 85px;
+@media (max-width: 576px) {
+  .popup__container {
+    padding: 20px;
   }
-  .popup__image-full {
-    position: absolute;
-    min-width: 240px;
-    min-height: 299px;
-    max-width: 240px;
-    max-height: 299px;
-  }
-
-  .popup__error-visible {
-    max-width: 150px;
-  }
-  .popup__overlay {
-    left: 10px;
+  .popup__header {
+    font-size: 1.2rem;
   }
 }

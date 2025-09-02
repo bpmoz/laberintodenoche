@@ -1,78 +1,83 @@
+/* frontend/src/blocks/footer.css */
+
 .footer {
-  background: #292827;
-  color: white;
-  padding: 40px 20px;
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  padding: 60px 20px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer__container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .footer__content {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  gap: 40px;
+}
+
+.footer__branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .footer__text {
-  font-family: "Montserrat";
-  font-weight: bold;
-  color: #a7b1c9;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin: 0 0 5px 0;
 }
 
 .footer__copy {
-  color: #a7b1c9;
-}
-
-.footer__logo {
-  width: 30px;
-  height: 30px;
-}
-
-.footer__logo-x {
-  height: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .footer__social-links {
   display: flex;
-  gap: 20px;
+  gap: 25px;
+  align-items: center;
 }
 
+.footer__logo,
+.footer__logo-x {
+  width: 24px;
+  height: auto;
+  transition: transform 0.3s ease;
+  filter: grayscale(100%);
+}
+
+.footer__social-links a:hover .footer__logo,
+.footer__social-links a:hover .footer__logo-x {
+  transform: scale(1.1);
+  filter: grayscale(0%);
+}
+
+/* --- Responsive Layout --- */
 @media (min-width: 768px) {
-  .footer-content {
+  .footer__content {
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
-.footer-branding h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
+@media (max-width: 576px) {
+  .footer__text {
+    font-size: 1.5rem;
+  }
 
-.footer-branding p {
-  color: #bbb;
-}
-
-.footer-links h4 {
-  margin-bottom: 15px;
-}
-
-.social__links {
-  display: flex;
-  gap: 20px;
-}
-
-.social__links a {
-  color: #bbb;
-  transition: color 0.3s ease;
-}
-
-.social__links a:hover {
-  color: white;
+  .footer__social-links {
+    gap: 15px;
+  }
 }

@@ -1,5 +1,7 @@
 @import url("../vendor/normalize.css");
 @import url("../vendor/font.css");
+@import url("../src/blocks/themes.css");
+@import url("../src/blocks/global.css");
 @import url("../src/blocks/header.css");
 @import url("../src/blocks/footer.css");
 @import url("../src/blocks/episodedetail.css");

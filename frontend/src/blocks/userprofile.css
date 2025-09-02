@@ -1,13 +1,20 @@
+/* frontend/src/blocks/userprofile.css */
+
 .user {
   max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   font-family: "Montserrat", sans-serif;
-  background: linear-gradient(to bottom, #000, #292827);
+  background: var(--background-primary); /* Use the correct theme variable */
 }
 
-.user__profile {
-  width: 100%;
+.user__profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--background-secondary);
+  border-radius: 20px;
+  box-shadow: var(--box-shadow-light);
 }
 
 .user__profile-header {
@@ -15,11 +22,7 @@
   gap: 2rem;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.user__profile-avatar-container {
-  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .user__profile-avatar {
@@ -27,7 +30,8 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #f0f0f0;
+  border: 3px solid var(--background-primary);
+  box-shadow: var(--box-shadow-dark);
 }
 
 .user__profile-info {
@@ -37,46 +41,44 @@
 .user__profile-username {
   font-size: 2rem;
   margin: 0 0 0.5rem 0;
-  color: #574270;
+  color: var(--text-primary);
 }
 
-.user__profile-email {
+.user__profile-email,
+.user__profile-joined-date,
+.user__profile-bio {
   font-size: 1rem;
-  color: #a7b1c9;
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
 
-.user__profile-joined-date {
-  font-size: 0.9rem;
-  color: #a7b1c9;
-  margin-bottom: 1rem;
-}
-
-.user__profile-bio {
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-  color: #a7b1c9;
-}
-
 .user__profile-edit-button {
-  background-color: #f0f0f0;
+  background-color: var(--background-primary);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s;
+  color: var(--text-primary);
+  box-shadow: var(--box-shadow-dark);
+  transition: all 0.2s;
 }
 
 .user__profile-edit-button:hover {
-  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--border-color);
+}
+
+.user__profile-edit-button:active {
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px var(--border-color),
+    inset -3px -3px 6px var(--background-secondary);
 }
 
 .user__profile-tabs {
   display: flex;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .user__profile-tab-button {
@@ -86,16 +88,16 @@
   font-size: 1rem;
   cursor: pointer;
   position: relative;
-  color: #666;
+  color: var(--text-secondary);
   transition: color 0.2s;
 }
 
 .user__profile-tab-button:hover {
-  color: #333;
+  color: var(--text-primary);
 }
 
 .user__profile-tab-button--active {
-  color: #333;
+  color: var(--text-primary);
   font-weight: bold;
 }
 
@@ -106,28 +108,20 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #4a90e2;
-}
-
-.user__profile-content {
-  width: 100%;
+  background-color: var(--accent-color);
 }
 
 .user__profile-section-title {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #a7b1c9;
+  color: var(--text-primary);
 }
 
 .user__profile-empty-message {
-  color: #888;
+  color: var(--text-secondary);
   font-style: italic;
   text-align: center;
   padding: 2rem 0;
-}
-
-.user__profile-episodes {
-  width: 100%;
 }
 
 .user__profile-episodes-list,
@@ -138,11 +132,13 @@
   margin: 0;
 }
 
-.user__profile-episode-item {
+.user__profile-episode-item,
+.user__profile-book-item {
   display: flex;
   gap: 1.5rem;
   padding: 1.5rem 0;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-secondary);
 }
 
 .user__profile-episode-image {
@@ -157,6 +153,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
+  box-shadow: var(--box-shadow-dark);
 }
 
 .user__profile-episode-play {
@@ -179,7 +176,7 @@
 }
 
 .user__profile-play-button {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--background-secondary);
   border: none;
   width: 40px;
   height: 40px;
@@ -189,39 +186,32 @@
   justify-content: center;
   cursor: pointer;
   font-size: 1rem;
+  box-shadow: var(--box-shadow-dark);
 }
 
-.user__profile-episode-info {
-  flex-grow: 1;
+.user__profile-play-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--border-color);
 }
 
 .user__profile-episode-title {
   font-size: 1.2rem;
   margin: 0 0 0.5rem 0;
-  color: #574270;
+  color: var(--text-primary);
 }
 
-.user__profile-episode-podcast {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.user__profile-episode-duration {
-  font-size: 0.9rem;
-  color: #888;
-  margin-bottom: 0.5rem;
-}
-
+.user__profile-episode-podcast,
+.user__profile-episode-duration,
 .user__profile-episode-date {
-  font-size: 0.8rem;
-  color: #999;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 }
 
 .user__profile-remove-button {
   background-color: transparent;
-  color: #ff5252;
-  border: 1px solid #ff5252;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
   cursor: pointer;
@@ -231,19 +221,12 @@
 }
 
 .user__profile-remove-button:hover {
-  background-color: #ff5252;
-  color: white;
-}
-
-.user__profile-books {
-  width: 100%;
+  background-color: var(--accent-color);
+  color: var(--background-secondary);
 }
 
 .user__profile-book-item {
-  display: flex;
-  gap: 1.5rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #eaeaea;
+  background-color: var(--background-secondary);
 }
 
 .user__profile-book-image {
@@ -253,48 +236,31 @@
 
 .user__profile-book-image img {
   width: 100%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow-dark);
   border-radius: 4px;
-}
-
-.user__profile-book-info {
-  flex-grow: 1;
 }
 
 .user__profile-book-title {
   font-size: 1.2rem;
   margin: 0 0 0.5rem 0;
-  color: #574270;
+  color: var(--text-primary);
 }
 
-.user__profile-book-author {
+.user__profile-book-author,
+.user__profile-book-episode,
+.user__profile-book-date {
   font-size: 0.9rem;
-  color: #a7b1c9;
+  color: var(--text-secondary);
   margin-bottom: 0.8rem;
 }
 
-.user__profile-book-episode {
-  font-size: 0.9rem;
-  color: #a7b1c9;
-  margin-bottom: 0.5rem;
-}
-
 .user__profile-book-episode span {
-  color: #4a90e2;
-}
-
-.user__profile-book-date {
-  font-size: 0.8rem;
-  color: #999;
-}
-
-.user__profile-comments {
-  width: 100%;
+  color: var(--accent-color);
 }
 
 .user__profile-comment-item {
   padding: 1.5rem 0;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .user__profile-comment-header {
@@ -307,24 +273,24 @@
 .user__profile-comment-episode {
   font-size: 1rem;
   margin: 0;
-  color: #a7b1c9;
+  color: var(--text-secondary);
   font-weight: normal;
 }
 
 .user__profile-comment-episode span {
-  color: #4a90e2;
+  color: var(--accent-color);
 }
 
 .user__profile-comment-date {
   font-size: 0.8rem;
-  color: #999;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .user__profile-comment-content {
   font-size: 1rem;
   line-height: 1.5;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
@@ -334,26 +300,11 @@
   justify-content: flex-end;
 }
 
-.user__profile-edit-comment-button {
-  background-color: transparent;
-  color: #4a90e2;
-  border: 1px solid #4a90e2;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-}
-
-.user__profile-edit-comment-button:hover {
-  background-color: #4a90e2;
-  color: white;
-}
-
+.user__profile-edit-comment-button,
 .user__profile-delete-comment-button {
   background-color: transparent;
-  color: #ff5252;
-  border: 1px solid #ff5252;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
   cursor: pointer;
@@ -361,9 +312,10 @@
   transition: all 0.2s;
 }
 
+.user__profile-edit-comment-button:hover,
 .user__profile-delete-comment-button:hover {
-  background-color: #ff5252;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--background-secondary);
 }
 
 /* Responsive Styles */

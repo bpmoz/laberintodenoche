@@ -1,25 +1,63 @@
+/* frontend/src/blocks/episodegrid.css */
+
 .podcast__grid-container {
   width: 100%;
-  padding: 20px 0;
+  padding: 40px;
+  background-color: var(--background-primary);
+  border-radius: 20px;
+  box-shadow: var(--box-shadow-light);
 }
 
 .podcast__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 30px;
 }
 
-/* Responsive styles */
+.podcast__grid-item {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: var(--box-shadow-dark);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.podcast__grid-item:hover {
+  /* This is the fix: use theme variables for shadows */
+  box-shadow: var(--box-shadow-dark);
+  transform: translateY(-5px);
+}
+
+.podcast__grid-item:active {
+  /* This is the fix: use theme variables for inset shadows */
+  box-shadow: inset 5px 5px 10px var(--border-color),
+    inset -5px -5px 10px var(--background-secondary);
+  transform: translateY(0);
+}
+
+/* Responsive styles for tablets and smaller screens */
 @media (max-width: 992px) {
+  .podcast__grid-container {
+    padding: 30px;
+  }
+
   .podcast__grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
   }
 }
 
+/* Responsive styles for mobile devices */
 @media (max-width: 576px) {
+  .podcast__grid-container {
+    padding: 20px;
+  }
+
   .podcast__grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 }

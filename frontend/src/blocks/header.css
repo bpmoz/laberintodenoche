@@ -1,24 +1,33 @@
+/* frontend/src/header.css */
+
 .header {
-  background: black;
-  padding: 20px 20px;
-  text-align: center;
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  /* The fix is here: use the correct box-shadow variable */
+  box-shadow: var(--box-shadow-light);
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .header__logo {
-  max-width: 500px;
-  max-height: 300px;
+  max-width: 150px;
+  max-height: 80px;
+  /* This filter needs to be defined in your themes.css file */
+  filter: var(--logo-filter);
 }
 
 .header__subtitle {
   font-size: 1.2rem;
   margin-top: 5px;
   margin-bottom: 25px;
-  color: #574270;
-  font-family: "Montserrat";
-  font-weight: light;
+  color: var(--text-secondary);
+  font-family: "Montserrat", sans-serif;
   font-weight: 100;
   font-style: italic;
 }
@@ -27,37 +36,58 @@
   display: flex;
   justify-content: center;
   gap: 30px;
-  font-family: "Montserrat";
-  font-size: bold;
+  font-family: "Montserrat", sans-serif;
   font-size: 20px;
   cursor: pointer;
 }
 
 .header__user {
-  color: #a7b1c9;
+  color: var(--text-secondary);
   text-decoration: none;
 }
 
-.header__primary-button {
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  color: #a7b1c9;
-}
-
-.header__primary-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
+.header__primary-button,
 .header__secondary-button {
   text-decoration: none;
-  color: #a7b1c9;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  color: var(--text-secondary);
 }
 
+.header__primary-button:hover,
 .header__secondary-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(
+    --border-color
+  ); /* Use a variable for hover background */
   transform: translateY(-2px);
+}
+
+.theme-toggle-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s ease;
+  color: var(--text-primary);
+}
+
+.theme-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 992px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header__logo {
+    max-width: 120px;
+    max-height: 60px;
+  }
 }

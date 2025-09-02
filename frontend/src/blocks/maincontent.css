@@ -1,29 +1,55 @@
+/* frontend/src/blocks/maincontent.css */
+
 .main {
   width: 100%;
-  background: linear-gradient(to bottom, #000, #292827);
-  padding: 0px;
+  min-height: 100vh;
+  padding: 20px 0;
+  color: var(--text-primary);
 }
 
 .main__container {
-  max-width: 100%;
-  background: linear-gradient(to bottom, #000, #292827);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
+  gap: 40px;
   justify-content: center;
 }
 
+.search-input {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  /* The fix is here: use the correct box-shadow variable */
+  box-shadow: 0 0 0 3px var(--accent-color);
+}
+
+/* --- Media Queries --- */
 @media (max-width: 992px) {
-  .episodes-container {
-    grid-template-columns: repeat(2, 1fr);
+  .main__container {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main__container {
+    gap: 30px;
   }
 }
 
 @media (max-width: 576px) {
-  .episodes__container {
-    grid-template-columns: 1fr;
-  }
-
-  .search-input {
-    width: 90%;
+  .main__container {
+    padding: 0 10px;
   }
 }

@@ -1,6 +1,9 @@
+/* frontend/src/blocks/register.css */
+
 .register__container {
   width: 100%;
-  background: linear-gradient(to right, #000, #292827);
+  /* Use the website's primary background color */
+  background: var(--background-primary);
   padding: 0px;
   justify-content: center;
   display: flex;

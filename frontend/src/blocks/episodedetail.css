@@ -1,23 +1,26 @@
+/* frontend/src/blocks/episodedetails.css */
+
 .episode {
   max-width: 100%;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(to bottom, #000, #292827);
   font-family: "Montserrat";
-  font-weight: light;
   font-weight: 100;
   font-style: normal;
+  /* Use theme color variables */
+  color: var(--text-primary);
+  background-color: var(--background-primary);
 }
 
 .episode__header {
   margin-bottom: 30px;
-  color: #a7b1c9;
+  color: var(--text-primary);
 }
 
 .episode__back-button {
   display: inline-block;
   padding: 10px 0;
-  color: #555;
+  color: var(--text-secondary);
   text-decoration: none;
   margin-bottom: 10px;
   font-weight: 500;
@@ -25,7 +28,7 @@
 }
 
 .episode__back-button:hover {
-  color: #daddd8;
+  color: var(--accent-color);
 }
 
 .episode__title {
@@ -34,7 +37,7 @@
 }
 
 .episode__meta {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -69,15 +72,15 @@
 }
 
 .episode__player {
-  background: #f6f6f6;
+  background: var(--background-secondary);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .episode__tabs {
   display: flex;
-  border-bottom: 1px solid #ddd;
-  background-color: #7c6787;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-secondary);
 }
 
 .episode__tab {
@@ -88,12 +91,13 @@
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.2s;
-  background-color: #3b3b58;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
 }
 
 .episode__player-container {
   padding: 15px;
-  background: #6a6b83;
+  background: var(--background-primary);
   min-height: 232px;
   display: flex;
   align-items: center;
@@ -106,24 +110,14 @@
 }
 
 .episode__description {
-  --text-color: #f0f0f0;
-  --bg-dark: #1a1a1a;
-  --bg-medium: #292827;
-  --bg-light: #3a3a3a;
-  --accent-color: #007bff;
-  --accent-hover-color: #0056b3;
-  --border-color: #444;
-  --border-radius: 8px;
-  --spacing-small: 10px;
-  --spacing-medium: 20px;
-  --spacing-large: 30px;
+  /* REMOVE ALL CUSTOM VARIABLE DEFINITIONS HERE */
 }
 
 .episode__section-title {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.5rem;
-  color: #a7b1c9;
+  color: var(--text-primary);
 }
 
 .episode__description-text {
@@ -145,17 +139,17 @@
 
 .episode__book {
   display: flex;
-  background: #fff;
+  background: var(--background-secondary);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--box-shadow-dark);
   transition: transform 0.2s, box-shadow 0.2s;
   height: 120px;
 }
 
 .episode__book:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--box-shadow-dark);
 }
 
 .episode__book-cover {
@@ -175,28 +169,28 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #6a6b83;
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
 }
 
 .episode__book-title {
   margin: 0 0 5px 0;
   font-size: 1rem;
-  color: #031926;
+  color: var(--text-primary);
 }
 
 .episode__book-author {
   margin: 0;
   font-size: 0.85rem;
-  color: #a7b1c9;
+  color: var(--text-secondary);
 }
 
 .episode__authors-list {
-  background: #fff;
+  background: var(--background-secondary);
   border-radius: 6px;
   padding: 15px 15px 15px 35px;
   margin: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  background-color: #6a6b83;
+  box-shadow: 0 2px 4px var(--box-shadow-dark);
 }
 
 .episode__author-item {
@@ -214,8 +208,8 @@
   align-items: center;
   height: 300px;
   font-size: 1.2rem;
-  color: #666;
-  background-color: linear-gradient(to right, #000, #292827);
+  color: var(--text-secondary);
+  background-color: var(--background-primary);
 }
 
 .episode__like-section {
@@ -227,9 +221,9 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-small);
-  background: var(--bg-dark);
+  background: var(--background-secondary);
   border-radius: var(--border-radius);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px var(--box-shadow-dark);
 }
 
 .episode__like-button {
@@ -242,7 +236,7 @@
   border: 2px solid var(--accent-color);
   border-radius: 50px;
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 120px;
@@ -253,19 +247,18 @@
   background-color: var(--accent-color);
   color: white;
   transform: translateY(-2px);
-  /box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .episode__like-button--active {
   background-color: var(--accent-color);
   color: white;
-  border-color: var(--accent-hover-color);
+  border-color: var(--accent-color);
 }
 
 .episode__like-button:disabled {
-  background-color: #444;
-  border-color: #666;
-  color: #bbb;
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -276,7 +269,7 @@
 
 .episode__auth-message {
   font-size: 0.9em;
-  color: #a7b1c9;
+  color: var(--text-secondary);
 }
 
 .episode__auth-message a {
@@ -290,7 +283,7 @@
 }
 
 .episode__link {
-  color: #a7b1c9;
+  color: var(--accent-color);
 }
 
 /* Responsive styles */

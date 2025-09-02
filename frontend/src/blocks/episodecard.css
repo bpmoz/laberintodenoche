@@ -1,10 +1,12 @@
+/* frontend/src/blocks/episodecard.css */
+
 .episode__card {
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--background-secondary); /* Changed from #ffffff */
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--box-shadow-dark); /* Changed from rgba(0, 0, 0, 0.1) */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   color: inherit;
@@ -12,7 +14,7 @@
 
 .episode__card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px var(--box-shadow-dark); /* Changed from rgba(0, 0, 0, 0.1) */
 }
 
 .episode__card-image {
@@ -33,6 +35,7 @@
 .episode__card-content {
   padding: 15px;
   font-family: "Montserrat";
+  color: var(--text-primary); /* Ensure text color changes */
 }
 
 .episode__card-content h3 {
@@ -43,7 +46,7 @@
 .episode__card-number {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary); /* Changed from #666 */
 }
 
 .episode__card-title {
