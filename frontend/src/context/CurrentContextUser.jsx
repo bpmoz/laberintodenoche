@@ -6,10 +6,9 @@ export const CurrentUserContext = createContext();
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check token on mount
     const token = localStorage.getItem("jwt-token");
     console.log("Initial token check:", token);
 
@@ -24,7 +23,6 @@ export const CurrentUserProvider = ({ children }) => {
         })
         .catch((error) => {
           console.error("Token verification failed:", error);
-          // If token verification fails, clear it
           localStorage.removeItem("jwt-token");
           setIsLoggedIn(false);
         })
@@ -41,7 +39,6 @@ export const CurrentUserProvider = ({ children }) => {
       if (res && res.token) {
         localStorage.setItem("jwt-token", res.token);
         console.log("Token saved:", res.token);
-        // Verify token was saved
         const savedToken = localStorage.getItem("jwt-token");
         console.log("Token verification:", savedToken);
 

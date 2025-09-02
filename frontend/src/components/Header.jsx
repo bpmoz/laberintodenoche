@@ -2,13 +2,13 @@ import React, { useContext, useEffect } from "react";
 import laberintoLogo from "../images/laberinto_noche.svg";
 import { useLocation, Link } from "react-router-dom";
 import { CurrentUserContext } from "../context/CurrentContextUser";
-import { useTheme } from "../context/ThemeProvider"; // Import the useTheme hook
+import { useTheme } from "../context/ThemeProvider";
 
 function Header() {
   const location = useLocation();
   const isRegisterPage = location.pathname === "/registrate";
   const { currentUser, isLoggedIn, logout } = useContext(CurrentUserContext);
-  const { theme, toggleTheme } = useTheme(); // Use the useTheme hook
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     console.log("isLoggedIn:", isLoggedIn);

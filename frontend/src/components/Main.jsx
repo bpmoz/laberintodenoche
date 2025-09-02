@@ -77,7 +77,7 @@ const MainComponent = () => {
         <EpisodeGrid episodes={episodes} />
       )}
 
-      {/* Pagination Controls */}
+      {}
       {pagination && pagination.totalPages > 1 && (
         <div className="pagination-controls">
           <button

@@ -14,12 +14,7 @@ import { ThemeProvider } from "./context/ThemeProvider";
 function PodcastApp() {
   return (
     <div className="podcast-app">
-      {/*
-        Wrap your entire application with both providers.
-        The order doesn't strictly matter for these two, but
-        it's a good practice to place them at the top level
-        so all components have access to their contexts.
-      */}
+      {}
       <ThemeProvider>
         <CurrentUserProvider>
           <BrowserRouter>

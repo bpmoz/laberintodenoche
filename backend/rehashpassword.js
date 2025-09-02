@@ -12,7 +12,6 @@ async function hashPassword(password) {
   }
 }
 
-// Replace 'your_admin_password' with the actual password from your .env file
 hashPassword(process.argv[2]).then(() => {
   process.exit();
 });

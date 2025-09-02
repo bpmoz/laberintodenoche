@@ -5,7 +5,6 @@ import { upload } from "../uploadConfig.js";
 import { Book } from "../models/book.js";
 const router = express.Router();
 
-// GET /api/episodes - Get all episodes with optional search and pagination
 router.get("/", async (req, res, next) => {
   try {
     const { search } = req.query;
