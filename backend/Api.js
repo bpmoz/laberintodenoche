@@ -39,6 +39,7 @@ app.use(
       "http://localhost:3002",
       "http://localhost:5174",
       "http://localhost:5173",
+      "https://laberintodenoche.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
