@@ -4,7 +4,7 @@
 
 Una experiencia inmersiva donde la literatura cobra vida a través de la voz, la noche y los susurros de los libros olvidados.
 
-![Laberinto de Noche](https://laberintodenoche.vercel.app/og-image.png)
+![Laberinto de Noche](https://laberintodenoche.vercel.app/og-image.jpg)
 
 
 [![Vercel](https://img.shields.io/badge/live%20on-Vercel-000000?logo=vercel)](https://laberintodenoche.vercel.app)
